@@ -1,0 +1,16 @@
+export enum AccessLevels {
+  PATIENT_USERS = 'PATIENT_USERS',
+  PROFESSIONAL_USERS = 'PROFESSIONAL_USERS',
+  PAYMENT_SUBSCRIPTIONS = 'PAYMENT_SUBSCRIPTIONS',
+  CMS = 'CMS',
+}
+
+export enum PermissionLevels {
+  CAN_EDIT = 'CAN_EDIT',
+  CAN_VIEW = 'CAN_VIEW',
+}
+
+export enum AdminRoles {
+  ADMIN = 'ADMIN',
+  SUPER_ADMIN='SUPER_ADMIN'
+}
