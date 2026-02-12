@@ -151,14 +151,15 @@ jobs:
               -o UserKnownHostsFile=/dev/null \
               -o ConnectTimeout=10 \
               ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} \
-              "cd ${{ secrets.DEPLOY_PATH }} && \
+              "mkdir -p ${{ secrets.DEPLOY_PATH || '/home/ubuntu/projects' }} && \
+               cd ${{ secrets.DEPLOY_PATH || '/home/ubuntu/projects' }} && \
                echo '$GITHUB_TOKEN' | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin && \
                docker network ls | grep -q test-network || docker network create test-network && \
                docker ps --format '{{.Names}}' | grep -q '^mongo$' || \
                  docker run -d --name mongo --network test-network -p 27017:27017 --restart always mongo:7 && \
                docker pull ghcr.io/$REPO_OWNER_LOWER/$REPO_NAME_LOWER:staging && \
-               docker stop backend 2>/dev/null || true && \
-               docker rm backend 2>/dev/null || true && \
+               docker rm -f backend 2>/dev/null || true && \
+               sleep 2 && \
                docker run -d --name backend --network test-network -p 3009:3001 \
                  -e PORT=3001 \
                  -e MONGODB_URI='${{ secrets.STAGING_MONGODB_URI }}' \
