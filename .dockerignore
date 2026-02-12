@@ -43,7 +43,4 @@ test
 README.md
 *.md
 
-# Source files (only dist is needed in production)
-src
-tsconfig.json
-nest-cli.json
+# Note: src, tsconfig.json, and nest-cli.json are NEEDED for build, so don't exclude them

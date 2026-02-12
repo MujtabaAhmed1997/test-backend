@@ -9,22 +9,26 @@ COPY package.json package-lock.json ./
 # Install ALL dependencies (including devDependencies for build)
 RUN npm ci
 
-# Copy source code
-COPY . .
+# Copy source code and config files (dist will be created by build, so excluding it is fine)
+COPY tsconfig.json tsconfig.build.json nest-cli.json ./
+COPY src ./src
 
-# Build the application
-RUN npm run build
+# Build the application (verbose output to see what's happening)
+RUN npm run build 2>&1
 
-# Verify dist folder was created
-RUN ls -la /app/ && \
-    if [ ! -d "/app/dist" ]; then \
-      echo "ERROR: dist folder not found after build"; \
-      echo "Contents of /app:"; \
-      ls -la /app/; \
+# List contents to debug
+RUN echo "=== Contents of /app after build ===" && \
+    ls -la /app/ && \
+    echo "=== Checking for dist folder ===" && \
+    if [ -d "/app/dist" ]; then \
+      echo "✓ dist folder exists!" && \
+      ls -la /app/dist/; \
+    else \
+      echo "✗ dist folder NOT found!" && \
+      echo "Looking for alternative output locations..." && \
+      find /app -name "main.js" -o -name "*.js" | head -10; \
       exit 1; \
-    fi && \
-    echo "Build successful, dist folder exists:" && \
-    ls -la /app/dist/
+    fi
 
 # Stage 2: Production image (only runtime dependencies)
 FROM node:20-alpine AS runner
