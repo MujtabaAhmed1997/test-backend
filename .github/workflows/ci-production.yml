@@ -145,7 +145,7 @@ jobs:
           REPO_OWNER_LOWER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
           REPO_NAME_LOWER=$(echo "${{ github.event.repository.name }}" | tr '[:upper:]' '[:lower:]')
           echo "Deploying to EC2 production server..."
-          ssh -v-i ~/.ssh/deploy_key \
+          ssh -v -i ~/.ssh/deploy_key \
               -p ${{ secrets.DEPLOY_PORT || 22 }} \
               -o StrictHostKeyChecking=no \
               -o UserKnownHostsFile=/dev/null \
