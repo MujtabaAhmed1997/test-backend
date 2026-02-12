@@ -15,6 +15,17 @@ COPY . .
 # Build the application
 RUN npm run build
 
+# Verify dist folder was created
+RUN ls -la /app/ && \
+    if [ ! -d "/app/dist" ]; then \
+      echo "ERROR: dist folder not found after build"; \
+      echo "Contents of /app:"; \
+      ls -la /app/; \
+      exit 1; \
+    fi && \
+    echo "Build successful, dist folder exists:" && \
+    ls -la /app/dist/
+
 # Stage 2: Production image (only runtime dependencies)
 FROM node:20-alpine AS runner
 WORKDIR /app
