@@ -1,4 +1,49 @@
+# Dependencies
 node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
 dist
-.git
+build
+
+# Environment files
 .env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Testing
+coverage
+.nyc_output
+test
+*.spec.ts
+*.test.ts
+
+# Misc
+.DS_Store
+*.pem
+*.log
+
+# Documentation
+README.md
+*.md
+
+# Source files (only dist is needed in production)
+src
+tsconfig.json
+nest-cli.json
