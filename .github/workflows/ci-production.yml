@@ -132,7 +132,7 @@ jobs:
             echo "ERROR: Invalid SSH key format in DEPLOY_SSH_KEY secret"
             exit 1
           fi
-        # What this does: Configures SSH key from GitHub secrets for secure connection
+        # What this does: Configures SSH key from GitHub secrets for secure connection    hhh
       
       # Deploy to EC2 instance via SSH (includes connection test)
       - name: Deploy to production server
@@ -145,7 +145,7 @@ jobs:
           REPO_OWNER_LOWER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
           REPO_NAME_LOWER=$(echo "${{ github.event.repository.name }}" | tr '[:upper:]' '[:lower:]')
           echo "Deploying to EC2 production server..."
-          ssh -i ~/.ssh/deploy_key \
+          ssh -v-i ~/.ssh/deploy_key \
               -p ${{ secrets.DEPLOY_PORT || 22 }} \
               -o StrictHostKeyChecking=no \
               -o UserKnownHostsFile=/dev/null \
